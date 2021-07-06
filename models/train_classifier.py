@@ -67,11 +67,12 @@ def tokenize(text):
     ## init WordNetLemmatizer
     lemmatizer = nltk.WordNetLemmatizer()
 
+    stopwords = set(nltk.corpus.stopwords.words('english'))
     ## create blank list for return
     token_list = []
     ## lemmatize all the tokenized words that is not a stopword
     for token in tokens:
-        if token not in nltk.stopwords("english"):
+        if token not in stopwords:
             tk = lemmatizer.lemmatize(token).lower().strip()
             token_list.append(tk)
 

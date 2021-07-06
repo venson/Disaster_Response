@@ -1,26 +1,42 @@
 import json
-
-#from sklearn.external import extjoblib
 import joblib
 import pandas as pd
 import plotly
 from flask import Flask, jsonify, render_template, request
 from nltk.stem import WordNetLemmatizer
+import nltk
+
+#nltk.download(['stopwords', 'punkt', 'wordnet'])
 from nltk.tokenize import word_tokenize
 from plotly.graph_objs import Bar
+#from sklearn.external import extjoblib
 from sqlalchemy import create_engine
 
 app = Flask(__name__)
 
 
 def tokenize(text):
+    """
+    
+    Used as tokenizer for CountVectorizer with word_tokenize() and WordNetlemmatizer() from nltk package.
+    The words will be lemmatized with WordNet dict. 
+
+    Parameters:
+    ----------
+        text : String needed to be tokenized.
+
+    Returns
+    ----------
+        clean_tokens: a list of words after tokenized and lemmatized.
+    """
     tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
-
+    stopwords = set(nltk.corpus.stopwords.words('english'))
     clean_tokens = []
     for tok in tokens:
-        clean_tok = lemmatizer.lemmatize(tok).lower().strip()
-        clean_tokens.append(clean_tok)
+        if tok not in stopwords:
+            clean_tok = lemmatizer.lemmatize(tok).lower().strip()
+            clean_tokens.append(clean_tok)
 
     return clean_tokens
 
@@ -43,20 +59,42 @@ def index():
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
 
+    ## sum of the categoies
+    category_sum = df.iloc[:, 4:].sum().transpose().sort_values(
+        ascending=False)[:10]
+
+    category_names = list(category_sum.index)
+
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
-    graphs = [{
-        'data': [Bar(x=genre_names, y=genre_counts)],
-        'layout': {
-            'title': 'Distribution of Message Genres',
-            'yaxis': {
-                'title': "Count"
-            },
-            'xaxis': {
-                'title': "Genre"
+    #
+    graphs = [
+        {
+            'data': [Bar(x=genre_names, y=genre_counts)],
+            'layout': {
+                'title': 'Distribution of Message Genres',
+                'yaxis': {
+                    'title': "Count"
+                },
+                'xaxis': {
+                    'title': "Genre"
+                }
+            }
+        },
+        ## plot for top 10 categories
+        {
+            'data': [Bar(x=category_names, y=category_sum)],
+            'layout': {
+                'title': 'Distribution of TOP 10 Categories',
+                'yaxis': {
+                    'title': "Count"
+                },
+                'xaxis': {
+                    'title': "Category"
+                }
             }
         }
-    }]
+    ]
 
     # encode plotly graphs in JSON
     ids = ["graph-{}".format(i) for i, _ in enumerate(graphs)]
