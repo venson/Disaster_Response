@@ -15,7 +15,7 @@ from sklearn.multioutput import MultiOutputClassifier
 from sklearn.pipeline import Pipeline
 from sqlalchemy import create_engine
 # comment the next line out if run under archlinux
-nltk.download(['punkt', 'wordnet', 'stopwords'])
+#nltk.download(['punkt', 'wordnet', 'stopwords'])
 
 
 def load_data(database_filepath):
@@ -134,11 +134,11 @@ def evaluate_model(model, X_test, Y_test, category_names):
     # caculate model scores for each category
     for column in category_names:
         print('>>>Report for {} :'.format(column))
-        print(
+        print(pd.DataFrame(
             classification_report(
-                pd.DataFrame(Y_test[column],
-                             y_pred_df[column],
-                             zero_division=0)))
+                Y_test[column],
+                y_pred_df[column],
+                zero_division=0, output_dict = True)))
         print('-------------')
 
 
