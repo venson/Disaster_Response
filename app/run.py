@@ -3,11 +3,9 @@ import joblib
 import pandas as pd
 import plotly
 from flask import Flask, jsonify, render_template, request
-from nltk.stem import WordNetLemmatizer
 import nltk
 
-#nltk.download(['stopwords', 'punkt', 'wordnet'])
-from nltk.tokenize import word_tokenize
+nltk.download(['stopwords', 'punkt', 'wordnet'])
 from plotly.graph_objs import Bar
 #from sklearn.external import extjoblib
 from sqlalchemy import create_engine
@@ -29,8 +27,8 @@ def tokenize(text):
     ----------
         clean_tokens: a list of words after tokenized and lemmatized.
     """
-    tokens = word_tokenize(text)
-    lemmatizer = WordNetLemmatizer()
+    tokens = nltk.word_tokenize(text)
+    lemmatizer = nltk.WordNetLemmatizer()
     stopwords = set(nltk.corpus.stopwords.words('english'))
     clean_tokens = []
     for tok in tokens:
