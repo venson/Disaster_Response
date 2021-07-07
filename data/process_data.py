@@ -52,7 +52,7 @@ def clean_data(df):
         # set each value to be the last character of the string
         categories[column] = categories[column].str[-1]
         # convert column from string to numeric
-        categories[column] = pd.to_numeric(categories[column])
+        categories[column] = categories[column].astype('int').astype('bool')
 
     # drop the original categories column from `df`
     df.drop(['categories'], axis=1, inplace=True)
@@ -74,7 +74,7 @@ def save_data(df, database_filename):
 
     """
     engine = create_engine('sqlite:///' + database_filename)
-    df.to_sql('DisasterResponse', engine, index=False)
+    df.to_sql('DisasterResponse', engine, index=False, if_exists='replace')
 
 
 def main():
