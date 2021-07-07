@@ -29,10 +29,10 @@ Finally we will build a web app to predict disasters from the text we input into
 
 + Archlinux (not recommended to use pip on Archlinux)
 
-  - `sudo pacman -S python-nltk nltk-data python-sqlalchemy python-flask python-sklearn `
+  - `sudo pacman -S python-plotly python-pandas python-nltk nltk-data python-sqlalchemy python-flask python-sklearn `
 
 + Mac 
-  - `pip3 install nltk sqlalchemy flask sklearn `
+  - `pip3 install pandas plotly nltk sqlalchemy flask sklearn `
 
 ## 4. Usage
 1. Run the following commands in the project's root directory to set up your database and model.
