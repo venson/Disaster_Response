@@ -8,6 +8,9 @@ We will use this data to build a model to predict disasters from messages.
 
 Finally we will build a web app to predict disasters from the text we input into the Web app.
 
+With Disaster Response app, we can discover ongoing disasters and emergency situations from twitter or other online massages.
+The officials and aids can arrive as soon as possible, which will and must save a lot lives.
+
 1. Clean and prepare the dataset, save the data in SQLlite database file.
 2. Extract text features, build and tune model with pipeline and gridsearchcv. Save model to PKL file.
 3. Build web app and predict disaster with the model loaded from PKL file.
