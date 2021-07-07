@@ -59,7 +59,7 @@ def index():
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
 
-    ## sum of the categoies
+    # sum of the categoies
     category_sum = df.iloc[:, 4:].sum().transpose().sort_values(
         ascending=False)[:10]
 

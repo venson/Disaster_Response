@@ -134,11 +134,12 @@ def evaluate_model(model, X_test, Y_test, category_names):
     # caculate model scores for each category
     for column in category_names:
         print('>>>Report for {} :'.format(column))
-        print(pd.DataFrame(
-            classification_report(
-                Y_test[column],
-                y_pred_df[column],
-                zero_division=0, output_dict = True)))
+        print(
+            pd.DataFrame(
+                classification_report(Y_test[column],
+                                      y_pred_df[column],
+                                      zero_division=0,
+                                      output_dict=True)))
         print('-------------')
 
 
